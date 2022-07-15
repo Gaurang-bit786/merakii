@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Orders
+{% endblock  %}
+
+{% load cart %}
+{% load custome_filter %}
+{% block content %}
+
+    <div class='border rounded p-4 m-4'>
+        <div class="row text-center">
+            <div class="col p-3">
+                <h1><u>My Cart</u></h1>
+            </div>
+        </div>
+        <table class="table">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>S No.</th>
+                    <th>Painting</th>
+                    <th>Painting Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in order %}
+                <tr>
+                    <td scope="row">{{ forloop.counter }}</td>
+                    <td><img src="{{ product.product.image1.url }}" class="rounded" style='height:80px'></td>
+                    <td>{{ product.product.painting_name }}</td>
+                    <td>{{ product.price|currency }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.quantity|multiply:product.price|currency }}</td>
+                    <td>{{ product.date }}</td>
+                    {% if product.status %}
+                        <td><small class='badge badge-success'>Completed</small></td>
+                    {% else %}
+                        <td><small class='badge badge-warning'>Pending</small></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock  %}

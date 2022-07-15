@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Store
+{% endblock  %}
+
+{% load cart %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid mb-4 p-5" style='background-image: url("{% static 'img/b6.jpg' %}");  background-size: cover;'>
+        <div class="row p-5 mb-5 text-center">
+            <div class="col  mb-4">
+                <h1 class="text-light font-weight-bold">Welcome to our Store</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row bg-success p-3 shadow-lg  text-center">
+            <div class="col">
+                <h1 class='text-center'>Our Products</h1>
+            </div>
+        </div>
+        <div class="row my-5">
+                {% for gal in gallery %}
+                <div class="col-md-4">
+                    <div class="card my-4">
+                        <div class="row text-center">
+                            <div class="col bg-light text-dark" id={{ gal.id }}>
+                                <h3>{{ gal.painting_name }}</h3>
+                            </div>
+                        </div>
+                        <img src="{{ gal.image1.url }}" class="card-img img-thumbnail" alt="...">
+
+                        <div class="card-body bg-light">
+                            <span class="text-dark p-3">{{ gal.description }}</span><br/>
+                        </div>
+                            <div class="card-footer  p-0">
+                            {% if gal|is_in_cart:request.session.cart %}
+                            <div class="row no-gutters">
+                                <form action="http://shop2home.pythonanywhere.com/store/#{{gal.id}}" method="post" class='col-2'>
+                                    {% csrf_token %}
+                                    <input hidden type="text" class='form-control' name='id' value='{{ gal.id }}' placeholder='Add to cart'>
+                                    <input hidden type="text" class='form-control' name='remove' value='True' placeholder='Add to cart'>
+                                    <input type="submit" value="-" class='btn btn-secondary btn-block'>
+                                </form>
+                                <div class="text-center col">
+                                    {{ gal|cart_quantity:request.session.cart}} in cart
+                                </div>
+                                <form action="http://shop2home.pythonanywhere.com/store/#{{gal.id}}" method="post" class='col-2'>
+                                    {% csrf_token %}
+                                    <input hidden type="text" class='form-control' name='id' value='{{ gal.id }}' placeholder='Add to cart'>
+                                    <input type="submit" value="+" class='btn btn-secondary btn-block'>
+                                </form>
+                            </div>
+                            {% else %}
+                                <form action="http://shop2home.pythonanywhere.com/store/#{{gal.id}}" method="post">
+                                    {% csrf_token %}
+                                    <input hidden type="text" class='form-control' name='id' value='{{ gal.id }}' placeholder='Add to cart'>
+                                    <input type="submit" class='form-control btn btn-block' value='Add to cart'>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+
+
+
+{% endblock  %}

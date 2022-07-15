@@ -1,0 +1,13 @@
+.image{
+    background-image: url('/merakii/static/img/banner.jpg');
+    background-size:contain;
+    margin:100%;
+    padding:100%;
+}
+
+.home  {
+    font-family: inherit;
+    color: white;
+    opacity: 20%;
+
+}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Cart
+{% endblock  %}
+
+{% load cart %}
+{% load custome_filter %}
+{% block content %}
+
+
+<div class='border rounded p-4 m-4'>
+    <div class="row text-center">
+        <div class="col p-3">
+            <h1><u>My Cart</u></h1>
+        </div>
+    </div>
+    <table class="table">
+
+        <thead class="thead-inverse">
+            <tr>
+                <th>S No.</th>
+                <th>Painting</th>
+                <th>Painting Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for product in product %}
+                <tr>
+                    <td scope="row">{{ forloop.counter }}</td>
+                    <td><img src="{{ product.image1.url }}" class="rounded" style='height:80px'></td>
+                    <td>{{ product.painting_name }}</td>
+                    <td>{{ product.price|currency }}</td>
+                    <td>{{ product|cart_quantity:request.session.cart }}</td>
+                    <td>{{ product|price_total:request.session.cart }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th  colspan="4"></th>
+                    <th  colspan="">Total</th>
+                    <th>{{ product | total_cart_price:request.session.cart|currency }}</th>
+                </tr>
+            </tfoot>
+    </table>
+
+    <div class="m-3 p-4">
+        <a href="#" data-toggle="modal" data-target="#exampleModal2" class='btn btn-outline-info border rounded float-right  col-lg-3'>Checkout</a>
+    </div>
+
+</div>
+
+<!--Model-->
+
+<!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Checkout Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="http://shop2home.pythonanywhere.com/checkout/" class='form-group' method="post">
+        <div class="modal-body">
+            <div class="container">
+                {% csrf_token %}
+                    <div class="row p-2">
+                        <input type="text" class="form-control text-dark font-weight-bold" placeholder='Address' name="address" id="">
+                    </div>
+                    <div class="row p-2">
+                        <input type="text" class="form-control text-dark font-weight-bold" placeholder='Phone' name="phone" id="">
+                    </div>
+                    <div class="row p-2 float-left ">
+                        <button type="submit" class="text-dark btn btn-outline-success font-weight-bold" >Chechout</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock  %}

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="jumbotron jumbotron-fluid image "  style='background-image: url("{% static 'img/bg1.jpg' %}");  background-size: cover;'>
+    <div class="container py-5">
+        <div class="row py-5 text-center ">
+            <div class="col py-5">
+                <div class="container py-5 home"  >
+                    <h1 class="display-2 text-white font-weight-bolder" id='welcome'>Saint Of Paint</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="container mt-5">
+        <div class="row mt-5 text-center">
+            <div class="col " id='about'>
+                <h2 class=" mt-5 font-weight-bolder"><u>About</u></h2>
+            </div>
+        </div>
+        <div class="row mt-4 ">
+          <div class="col-md-5">
+              <div class="row text-center">
+                  <div class="col">
+                    <img src="{% static 'img/abou_banner.jpeg' %}" class="border border-dark" width="250px"  height="250px">
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-7 mt-4">
+                <p class="font-weight-bold">I had always loved my art. I create them using my imagination. I usually create meaningful wall art print with illustration which have deep meaning with suitable quotes in them.
+                    Currently I prefer use watercolours, gouaches and acrylics.</p>
+                <a href="#" class="btn btn-outline-primary font-weight-bold rounded-pill">About Me</a>
+          </div>
+      </div>
+  </div>
+
+
+    <div class="container-fluid bg-dark mt-5 py-4" style='background-image: url("{% static 'img/product_bg.jpg' %}");  background-size: cover;'>
+        <div class="row text-center my-5">
+            <div class="col p-3">
+                <h2 class="font-weight-bolder"><u>Our</u> <u>Products</u></h2>
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="container">
+                <div class="card-deck">
+                    {% for gallery in gallery|slice:'0:3' %}
+                    <div class="card">
+                    <img src="{{ gallery.image1.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ gallery.painting_name }}</h5>
+                        <p class="card-text">{{ gallery.description }}</p>
+                        <p class="card-text"><small class="text-muted">{{ gallery.date }}</small></p>
+                    </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row float-right px-5">
+            <div class="col px-5">
+                <a href="http://shop2home.pythonanywhere.com/store/" class="btn btn-outline-info font-weight-bolder">See More <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid bg-dark my-5 p-4" style='background-image: url("{% static 'img/gallery_bbg.jpg' %}");  background-size: cover;'>
+        <div class="row text-center my-5">
+            <div class="col p-3">
+                <h2 class="font-weight-bolder"><u>Gallery</u></h2>
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="container">
+                <div class="card-deck">
+                    {% for gallery in image|slice:'0:3' %}
+                    <div class="card">
+                    <img src="{{ gallery.collection.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row float-right px-5">
+            <div class="col px-5">
+                <a href="http://shop2home.pythonanywhere.com/gallery/" class="btn btn-outline-info font-weight-bolder">See More <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="jumbotron jumbotron-fluid py-5" style='background-image: url("{% static 'img/contact.jpg' %}");  background-size: cover;'>
+        <div class="container" id='contact'>
+            <div class="row text-center" >
+                <div class="col">
+                    <h2 class='text-white font-weight-bolder'>Contact</h2>
+                </div>
+            </div>
+            <div class="row p-4">
+                <div class="col-md-4">
+                    <form action="" class='form-group' method="post">
+                        {% csrf_token %}
+                        <div class="row p-2">
+                            <input type="text" name="name" placeholder='Name' class='form-control text-white font-weight-bolder' id=""  style='background:none'>
+                        </div>
+                        <div class="row p-2">
+                            <input type="email" name="email" placeholder='Email' class='form-control text-white font-weight-bolder' id=""  style='background:none'>
+                        </div>
+                        <div class="row p-2">
+                            <input type="text" name="phone" placeholder='Phone' class='form-control text-white font-weight-bolder' id=""  style='background:none'>
+                        </div>
+                        <div class="row p-2">
+                            <input type="radio" name="gender" value='Male' id=""  style='background:none'>&nbsp;<span class=' text-white font-weight-bolder'>Male</span>&nbsp;&nbsp;
+                            <input type="radio" name="gender" value='Female' id=""  style='background:none'>&nbsp;<span class=' text-white font-weight-bolder'>Female</span>
+                        </div>
+                        <div class="row p-2">
+                              <textarea name="address" class='form-control  text-white font-weight-bolder' placeholder='Address'  style='background:none' id="" rows="3"></textarea>
+                        </div>
+                        <div class="row p-2">
+                            <button class='btn btn-outline-primary' >Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    Our Blogs
+{% endblock  %}
+
+{% load static %}
+
+
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid" style='background-image: url("{% static 'img/blog_banner.jpg' %}"); background-size: cover;'>
+    <div class="container py-5">
+
+        <div class="row py-5 text-center">
+            <div class="col py-5">
+                    <div class="row">
+                        <div class="col">
+                            <h1 class="display-3 text-white font-weight-bolder">Merakii Blog</h1>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="container my-5">
+        <div class="row text-center bg-primary shadow">
+            <div class="col">
+                <h1 class="text-white font-weight-bold p-3">Our Post</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        {% for post in post %}
+        <div class="row my-5">
+            <h3 class="font-weight-bold">{{ post.title }}</h3><br>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h4><i class="fa fa-user-circle-o" aria-hidden="true">  <u>{{ post.author.first_name }} {{ post.author.last_name }}</u></i></h4>
+            </div>
+            <div class="col">
+                <h5><u>Published On : {{ post.post_date }}</u></h5>
+            </div>
+        </div>
+        <div class="row">
+            <p>{{ post.body | safe }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="container my-2">
+        <div class="row">
+            <form method='POST' class="form-group">
+                {% csrf_token %}
+                <div class="col py-1">
+                    <input type='text' class="form-control" name='name' placeholder='Enter Your Name' />
+                </div>
+                <div class="col py-1">
+                    <input type='text' class="form-control" name='comment' placeholder='Enter the comment' />
+                </div>
+                <div class="col py-1">
+                    <input type="submit" value="Submit" class='btn btn-outline-primary' />
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+
+    <div class="container my-5 p-5">
+
+        <div class="row my-2">
+            <h3>Comments</h3>
+        </div>
+
+        <div class="row">
+
+            {% for post in post %}
+                {% for comment in post.comment.all %}
+                    <div class="col-md-5 my-3 mx-3 p-3 shadow">
+                        <h6><i class="fa fa-user-circle-o" style="font-size:30px;" aria-hidden="true"></i> {{ comment.name }}</h6>
+                        <h4>Comment : {{ comment.comment }}</h4>
+
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock  %}
+
